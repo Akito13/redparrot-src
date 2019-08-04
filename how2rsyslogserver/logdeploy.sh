@@ -14,6 +14,7 @@ else
   echo "Please provide your desired server IP and port."
   echo "As root user, like this:"
   echo "./logdeploy.sh 10.15.10.23 515"
+  exit 1
 fi
 
 apt-get install -y rsyslog > /dev/null
