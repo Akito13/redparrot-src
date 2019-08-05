@@ -23,7 +23,7 @@ truncEmpty() {
   ## Remove redundant newlines at EOF. Leave only a single one.
   if [ -s ${config} ]; then
     while [[ $(tail -n 1 ${config}) == "" ]]; do
-        truncate -cs -1 ${config};
+      truncate -cs -1 ${config};
     done;
   else
     echo "File does not exist or is empty."
