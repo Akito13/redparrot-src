@@ -21,11 +21,13 @@ fi;
 
 truncEmpty() {
   ## Remove redundant newlines at EOF. Leave only a single one.
-  while [[ $(tail -n 1 ${config}) == "" ]]; do
-    if [ -s ${config} ]; then
-      truncate -cs -1 ${config};
-    fi;
-  done;
+  if [ -s ${config} ]; then
+    while [[ $(tail -n 1 ${config}) == "" ]]; do
+        truncate -cs -1 ${config};
+    done;
+  else
+    echo "File does not exist or is empty."
+  fi;
 }
 
 # Install dependency. Show only errors.
