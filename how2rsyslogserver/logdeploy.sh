@@ -2,8 +2,15 @@
 # See LICENSE.
 # Copyright (C) 2019 Akito
 
-# Checks your privileges.
+## Requires root permissions.
+## Takes IPv4 address + port as 2 arguments.
+## Installs `rsyslog` package from standard APT repository.
+## Replaces old syslog server address with the given one.
+## Prettifies `rsyslog.conf` by removing redundant
+## newlines at EOF.
+
 if [ "$EUID" -ne 0 ]; then
+  ## Check your privileges.
   echo "Please run me as root."
   exit 1
 fi;
@@ -34,9 +41,8 @@ truncEmpty() {
 # Install dependency. Show only errors.
 apt-get install -y rsyslog > /dev/null
 
-# Remove previous entries.
-while read -r line
-do
+while read -r line; do
+  ## Remove previous entries.
   [[ ! $line =~ "*.*            @@" ]] && echo "$line"
 done <${config} > o
 mv o ${config}
