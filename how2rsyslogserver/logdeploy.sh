@@ -2,7 +2,7 @@
 # See LICENSE.
 # Copyright (C) 2019 Akito
 
-# Checks privileges.
+# Checks your privileges.
 if [ "$EUID" -ne 0 ]; then
   echo "Please run me as root."
   exit 1
@@ -20,7 +20,7 @@ else
 fi;
 
 truncEmpty() {
-  ## Removes redundant newlines at EOF.
+  ## Remove redundant newlines at EOF. Leave only a single one.
   while [[ $(tail -n 1 ${config}) == "" ]]; do
     if [ -s ${config} ]; then
       truncate -cs -1 ${config};
@@ -28,7 +28,7 @@ truncEmpty() {
   done;
 }
 
-# Install dependency. Only errors are visible.
+# Install dependency. Show only errors.
 apt-get install -y rsyslog > /dev/null
 
 # Remove previous entries.
