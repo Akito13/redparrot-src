@@ -29,8 +29,6 @@ do
 done <${config} > o
 mv o ${config}
 
-# Remove redundant \n.
-truncate -cs -1 ${config};
 # Append updated server address.
 printf "*.*            @@$serverip:$serverport\n" >> ${config}
 
