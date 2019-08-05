@@ -10,6 +10,7 @@ fi
 if [ $# -eq 2 ]; then
   serverip=$1
   serverport=$2
+  config=/etc/rsyslog.conf
 else
   echo "Please provide your desired server IP and port."
   echo "As root user, like this:"
@@ -23,16 +24,18 @@ apt-get install -y rsyslog > /dev/null
 while read -r line
 do
   [[ ! $line =~ "*.*            @@" ]] && echo "$line"
-done </etc/rsyslog.conf > o
-mv o /etc/rsyslog.conf
+done <${config} > o
+mv o ${config}
 
-printf "*.*            @@$serverip:$serverport\n" >> /etc/rsyslog.conf
+printf "*.*            @@$serverip:$serverport\n" >> ${config}
 
 # Leaves only a single newline at EOF.
-while [[ $(tail -n 2 /etc/rsyslog.conf | head -n 1) == "" && \
-         $(tail -n 1 /etc/rsyslog.conf) == "" ]]; do
-  truncate -cs1 /etc/rsyslog.conf
-done
+while [[ \
+        $(tail -n 2 ${config} | head -n 1) == "" && \
+        $(tail -n 1 ${config}) == "" \
+      ]]; do
+  truncate -cs -1 ${config};
+done;
 
 systemctl restart rsyslog
 
