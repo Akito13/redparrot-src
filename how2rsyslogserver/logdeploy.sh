@@ -29,9 +29,9 @@ mv o /etc/rsyslog.conf
 printf "*.*            @@$serverip:$serverport\n" >> /etc/rsyslog.conf
 
 # Leaves only a single newline at EOF.
-while [[ $(tail -n 2 rsyslogtest.conf | head -n 1) == "" && \
-         $(tail -n 1 rsyslogtest.conf) == "" ]]; do
-  truncate -s -1 rsyslogtest.conf
+while [[ $(tail -n 2 /etc/rsyslog.conf | head -n 1) == "" && \
+         $(tail -n 1 /etc/rsyslog.conf) == "" ]]; do
+  truncate -cs1 /etc/rsyslog.conf
 done
 
 systemctl restart rsyslog
