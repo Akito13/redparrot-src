@@ -2,6 +2,7 @@
 # See LICENSE.
 # Copyright (C) 2019 Akito
 
+# Checks privileges.
 if [ "$EUID" -ne 0 ]
   then echo "Please run me as root."
   exit 1
@@ -18,6 +19,7 @@ else
   exit 1
 fi
 
+# Install dependency. Only errors are visible.
 apt-get install -y rsyslog > /dev/null
 
 # Remove previous entries.
@@ -27,6 +29,9 @@ do
 done <${config} > o
 mv o ${config}
 
+# Remove redundant \n.
+truncate -cs -1 ${config};
+# Append updated server address.
 printf "*.*            @@$serverip:$serverport\n" >> ${config}
 
 # Leaves only a single newline at EOF.
