@@ -40,6 +40,9 @@ while [[ \
         $(tail -n 1 ${config}) == "" \
       ]]; do
   truncate -cs -1 ${config};
+  if [[ $(tail -n 1 ${config}) == "" ]]; then
+    truncate -cs -1 ${config};
+  fi;
 done;
 
 systemctl restart rsyslog
