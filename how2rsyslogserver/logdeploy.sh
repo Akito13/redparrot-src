@@ -27,6 +27,7 @@ truncEmpty() {
     done;
   else
     echo "File does not exist or is empty."
+    exit 1
   fi;
 }
 
