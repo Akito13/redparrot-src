@@ -9,20 +9,25 @@
 ## Prettifies `rsyslog.conf` by removing redundant
 ## newlines at EOF.
 
-if [ "$EUID" -ne 0 ]; then
-  ## Check your privileges.
-  echo "Please run me as root."
-  exit 1
+
+if [[ "$EUID" != 0 ]]; then
+  ## Check your privilege.
+  echo "Please run me as root.";
+  exit 1;
 fi;
 
-if [ $# -eq 2 ]; then
+if [[ \
+      $# == 2                                               && \
+      $1 =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3} && \
+      $2 =~ ^[0-9]{2,5}                                        \
+   ]]; then
   serverip=$1
   serverport=$2
   config=/etc/rsyslog.conf
 else
   echo "Please provide your desired server IP and port."
   echo "As root user, like this:"
-  echo "./logdeploy.sh 10.15.10.23 515"
+  echo "$0 10.15.10.23 515"
   exit 1
 fi;
 
