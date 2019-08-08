@@ -54,9 +54,9 @@ mv o ${config}
 
 # Append updated server address.
 truncEmpty
-printf "\n" >> ${config}
+printf "\n"                                     >> ${config}
 printf "*.*            @@$serverip:$serverport" >> ${config}
-printf "\n" >> ${config}
+printf "\n"                                     >> ${config}
 truncEmpty
 
 systemctl restart rsyslog
