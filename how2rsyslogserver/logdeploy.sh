@@ -14,16 +14,15 @@ if [[ "$EUID" != 0 ]]; then
   ## Check your privilege.
   echo "Please run me as root.";
   exit 1;
-fi;
-
-if [[ \
+elif [[                                                        \
       $# == 2                                               && \
       $1 =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3} && \
       $2 =~ ^[0-9]{2,5}                                        \
-   ]]; then
+     ]]; then
   serverip=$1
   serverport=$2
   config=/etc/rsyslog.conf
+  apt-get install -y rsyslog > /dev/null
 else
   echo "Please provide your desired server IP and port."
   echo "As root user, like this:"
@@ -42,9 +41,6 @@ truncEmpty() {
     exit 1
   fi;
 }
-
-# Install dependency. Show only errors.
-apt-get install -y rsyslog > /dev/null
 
 while read -r line; do
   ## Remove previous entries.
